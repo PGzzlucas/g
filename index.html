@@ -33,7 +33,9 @@
   body::before, body::after {
     content: ''; position: fixed; border-radius: 50%;
     filter: blur(100px); opacity: 0.35; z-index: 0; pointer-events: none;
+    transition: opacity 0.3s;
   }
+  body.light::before, body.light::after { opacity: 0.15; }
   body::before {
     width: 300px; height: 300px; background: var(--accent2);
     top: -80px; right: -60px; animation: drift1 20s ease-in-out infinite;
@@ -382,6 +384,9 @@
       <button class="shop-tab" data-cat="存储与基建" style="flex-shrink:0;">基建</button>
       <button class="shop-tab" data-cat="软件与数据" style="flex-shrink:0;">软件</button>
       <button class="shop-tab" data-cat="房产投资" style="flex-shrink:0;">房产</button>
+      <button class="shop-tab" data-cat="豪车奢侈品" style="flex-shrink:0;">豪车</button>
+      <button class="shop-tab" data-cat="地产建设" style="flex-shrink:0;">建设</button>
+      <button class="shop-tab" data-cat="家具装饰" style="flex-shrink:0;">家具</button>
     </div>
     <div style="display:flex;gap:8px;margin-bottom:10px;">
       <button class="debug-btn" id="showAffordableBtn" style="flex:1;font-size:11px;padding:8px;">只看能买的</button>
@@ -429,6 +434,72 @@
     </div>
   </div>
 
+  <!-- ===== Page: My House ===== -->
+  <div class="page" id="pageHouse">
+    <div class="tm-section">
+      <h3>🏠 我的宅邸</h3>
+      <div id="houseName" style="font-size:15px;font-weight:700;margin-bottom:8px;">还没有房子</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;">
+        <span style="font-size:11px;color:var(--text-dim);">楼层:</span>
+        <select id="floorSelect" style="padding:6px;border-radius:8px;background:var(--glass);color:var(--text);border:1px solid var(--border);">
+          <option value="1">1楼·院子</option>
+        </select>
+        <button class="debug-btn" id="addFloorBtn" style="font-size:11px;padding:6px 10px;">+ 加一层 (¥100万)</button>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--text-dim);">地板:</span>
+        <button class="floor-color" data-color="#2a2a35" style="width:24px;height:24px;border-radius:6px;border:2px solid #fff;"></button>
+        <button class="floor-color" data-color="#3d2f1f" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border);"></button>
+        <button class="floor-color" data-color="#1f3d2a" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border);"></button>
+        <button class="floor-color" data-color="#2a3d4d" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border);"></button>
+        <button class="floor-color" data-color="#4d2a3d" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border);"></button>
+        <button class="floor-color" data-color="#1a1a1a" style="width:24px;height:24px;border-radius:6px;border:1px solid var(--border);"></button>
+      </div>
+      <div id="houseGrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:12px;padding:10px;border-radius:12px;background:#2a2a35;transition:background 0.2s;"></div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:6px;">🎒 背包（点背包里的家具，再点网格放置）：</div>
+      <div id="inventoryList" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== Page: Gacha ===== -->
+  <div class="page" id="pageGacha">
+    <div class="tm-section">
+      <h3>🎴 抽卡</h3>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">单抽 ¥10,000 · 十连 ¥90,000</div>
+      <div style="display:flex;gap:8px;">
+        <button class="debug-btn" id="singleDrawBtn" style="flex:1;">单抽</button>
+        <button class="debug-btn" id="tenDrawBtn" style="flex:1;">十连</button>
+      </div>
+      <div id="drawResult" style="margin-top:12px;min-height:80px;"></div>
+    </div>
+    <div class="tm-section">
+      <h3>📚 我的收藏 (<span id="cardCount">0</span>张)</h3>
+      <div id="cardList" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    </div>
+  </div>
+
+  <!-- ===== Page: Pay ===== -->
+  <div class="page" id="pagePay">
+    <div class="tm-section">
+      <h3>💳 充值中心</h3>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;">汇率：1元 = 10T算力 · 假支付</div>
+      <div style="background:linear-gradient(135deg,#1a3a5c,#0d1b2a);border-radius:12px;padding:16px;color:#fff;margin-bottom:10px;">
+        <div style="font-size:11px;opacity:0.7;">BANK OF DOUBAO</div>
+        <div style="font-family:monospace;letter-spacing:2px;margin:10px 0;">6222 **** **** 8888</div>
+        <div style="font-size:11px;">持卡人: PLAYER · 有效期 12/30</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button class="debug-btn pay-btn" data-t="1e12" data-p="0.1">1T<br><small>¥0.1</small></button>
+        <button class="debug-btn pay-btn" data-t="6e12" data-p="0.6">6T<br><small>¥0.6</small></button>
+        <button class="debug-btn pay-btn" data-t="3e13" data-p="3">30T<br><small>¥3</small></button>
+        <button class="debug-btn pay-btn" data-t="6.8e13" data-p="6.8">68T<br><small>¥6.8</small></button>
+        <button class="debug-btn pay-btn" data-t="1.28e14" data-p="12.8">128T<br><small>¥12.8</small></button>
+        <button class="debug-btn pay-btn" data-t="6.48e14" data-p="64.8" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#000;font-weight:bold;">648T<br><small>¥64.8 🔥</small></button>
+      </div>
+      <div id="payResult" style="margin-top:10px;font-size:13px;text-align:center;"></div>
+    </div>
+  </div>
+
   <!-- ===== Page: Settings ===== -->
   <div class="page" id="pageSettings">
     <div class="tm-section">
@@ -439,6 +510,15 @@
         <button class="debug-btn display-mode-btn" data-mode="desktop" style="flex:1;">电脑版</button>
       </div>
       <div style="font-size:11px;color:var(--text-dim);margin-top:8px;" id="modeStatus"></div>
+    </div>
+    <div class="tm-section">
+      <h3>外观</h3>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <button class="debug-btn" id="darkBtn" style="flex:1;">🌙 暗黑</button>
+        <button class="debug-btn" id="lightBtn" style="flex:1;">☀️ 纯白</button>
+      </div>
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px;">主题色</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;" id="themeGrid"></div>
     </div>
     <div class="tm-section">
       <h3>更新日志</h3>
@@ -477,6 +557,18 @@
   <button class="nav-btn" data-page="pageExchange">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
     兑换
+  </button>
+  <button class="nav-btn" data-page="pageHouse">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    宅邸
+  </button>
+  <button class="nav-btn" data-page="pageGacha">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+    抽卡
+  </button>
+  <button class="nav-btn" data-page="pagePay">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    充值
   </button>
   <button class="nav-btn" data-page="pageSettings">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -520,6 +612,15 @@
       <button class="debug-btn" data-add="1e9">+1B</button>
       <button class="debug-btn" data-add="1e12">+1T</button>
     </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px;">
+      <button class="debug-btn" id="addMoney1Btn" style="background:#30d158;">+¥1K</button>
+      <button class="debug-btn" id="addMoney2Btn" style="background:#30d158;">+¥1M</button>
+      <button class="debug-btn" id="addMoney3Btn" style="background:#30d158;">+¥1B</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
+      <button class="debug-btn" id="addClickBtn">+1000点击收益</button>
+      <button class="debug-btn" id="addAutoBtn">+100K自动算力</button>
+    </div>
     <div style="background:var(--surface-2);border-radius:8px;padding:10px;margin-bottom:10px;">
       <div style="font-size:10px;color:var(--text-dim);margin-bottom:6px;">调整目标算力</div>
       <div style="display:flex;gap:6px;">
@@ -545,6 +646,7 @@
     </div>
     <div style="display:flex;flex-direction:column;gap:6px;">
       <button class="debug-btn" id="unlockAllBtn" style="width:100%;">买空商店</button>
+      <button class="debug-btn" id="infiniteAssetsBtn" style="width:100%;background:#bf5af2;">♾️ 无限资产（FLOPs+金钱拉满）</button>
       <button class="debug-btn" id="winBtn" style="width:100%;">直接通关</button>
       <button class="debug-btn" id="closeDebugBtn" style="width:100%;background:var(--surface-2);color:var(--text);border:1px solid var(--border);">关闭</button>
     </div>
@@ -562,6 +664,66 @@ let state = {
   startTime: Date.now(),
   victoryShown: false
 };
+
+// ===== Themes =====
+const ACCENTS = [
+  {a:'#0a84ff', b:'#bf5af2', n:'蓝紫'},
+  {a:'#ff453a', b:'#ff9f0a', n:'红橙'},
+  {a:'#00c2ff', b:'#007aff', n:'海洋'},
+  {a:'#30d158', b:'#a8e063', n:'森林'},
+  {a:'#ff6b9d', b:'#f8bbd9', n:'樱花'},
+  {a:'#ffd60a', b:'#ff9f0a', n:'黄金'},
+  {a:'#bf5af2', b:'#7c3aed', n:'紫夜'},
+  {a:'#ff6b35', b:'#f7931e', n:'橙焰'},
+  {a:'#00e5a0', b:'#64ffda', n:'薄荷'},
+  {a:'#ff375f', b:'#ff2d55', n:'莓红'},
+];
+function applyTheme() {
+  const r = document.documentElement.style;
+  const dark = state.dark !== false;
+  const c = ACCENTS[state.theme || 0];
+  r.setProperty('--accent', c.a);
+  r.setProperty('--accent2', c.b);
+  if (dark) {
+    r.setProperty('--bg', '#0a0a0f');
+    r.setProperty('--text', '#f5f5f7');
+    r.setProperty('--text-dim', 'rgba(235,235,245,0.6)');
+    r.setProperty('--glass', 'rgba(255,255,255,0.06)');
+    r.setProperty('--border', 'rgba(255,255,255,0.1)');
+    document.body.classList.remove('light');
+  } else {
+    r.setProperty('--bg', '#f5f5f7');
+    r.setProperty('--text', '#1a1a1a');
+    r.setProperty('--text-dim', 'rgba(0,0,0,0.6)');
+    r.setProperty('--glass', 'rgba(255,255,255,0.8)');
+    r.setProperty('--border', 'rgba(0,0,0,0.1)');
+    document.body.classList.add('light');
+  }
+}
+const grid = document.getElementById('themeGrid');
+ACCENTS.forEach((t, i) => {
+  const d = document.createElement('div');
+  d.style.cssText = `aspect-ratio:1;border-radius:10px;background:${state.dark===false?'#fff':'#1a1a1a'};border:2px solid transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;`;
+  d.innerHTML = `<div style="width:60%;height:60%;border-radius:50%;background:linear-gradient(135deg,${t.a},${t.b});"></div>`;
+  d.onclick = () => { state.theme = i; applyTheme(); saveGame(); };
+  grid.appendChild(d);
+});
+function refreshThemeGrid() {
+  document.querySelectorAll('#themeGrid > div').forEach(d => {
+    d.style.background = state.dark === false ? '#fff' : '#1a1a1a';
+  });
+}
+document.getElementById('darkBtn').onclick = () => { state.dark = true; applyTheme(); refreshThemeGrid(); saveGame(); };
+document.getElementById('lightBtn').onclick = () => { state.dark = false; applyTheme(); refreshThemeGrid(); saveGame(); };
+applyTheme(); refreshThemeGrid();
+try {
+  const saved = localStorage.getItem('aiSimSave');
+  if (saved) state = JSON.parse(saved);
+} catch(e) {}
+function saveGame() {
+  try { localStorage.setItem('aiSimSave', JSON.stringify(state)); } catch(e) {}
+}
+setInterval(saveGame, 3000);
 
 // ===== Shop Products =====
 let PRODUCTS = [
@@ -679,6 +841,74 @@ let PRODUCTS = [
   { id: 'h18', cat: '房产投资', name: '马尔代夫·水上别墅 🏝️', desc: '海底珊瑚礁，+100T/s', cost: 100000000000, flops: 100000000000000, watt: 3000 },
   { id: 'h19', cat: '房产投资', name: '摩纳哥·海景公寓 🛥️', desc: 'F1赛道旁，+500T/s', cost: 500000000000, flops: 500000000000000, watt: 5000 },
   { id: 'h20', cat: '房产投资', name: '火星·穹顶住宅 🔴', desc: '红色星球殖民地，+1P/s', cost: 10000000000000, flops: 1000000000000000, watt: 10000 },
+
+  // ===== 豪车与奢侈品 🚗 =====
+  { id: 'c1', cat: '豪车奢侈品', name: '五菱宏光 🚙', desc: '秋名山神车，+5K/s', cost: 30000, flops: 5000, watt: 100 },
+  { id: 'c2', cat: '豪车奢侈品', name: '丰田卡罗拉 🚗', desc: '家用代步，+15K/s', cost: 150000, flops: 15000, watt: 120 },
+  { id: 'c3', cat: '豪车奢侈品', name: '特斯拉 Model 3 ⚡', desc: '电动车天花板，+50K/s', cost: 300000, flops: 50000, watt: 150 },
+  { id: 'c4', cat: '豪车奢侈品', name: '宝马 3系 🏎️', desc: '驾驶乐趣，+150K/s', cost: 500000, flops: 150000, watt: 200 },
+  { id: 'c5', cat: '豪车奢侈品', name: '保时捷 911 🏁', desc: '跑车图腾，+500K/s', cost: 2000000, flops: 500000, watt: 300 },
+  { id: 'c6', cat: '豪车奢侈品', name: '法拉利 Roma 🔴', desc: '意大利红色闪电，+2M/s', cost: 5000000, flops: 2000000, watt: 500 },
+  { id: 'c7', cat: '豪车奢侈品', name: '兰博基尼 Huracan 🟡', desc: '小牛，+5M/s', cost: 10000000, flops: 5000000, watt: 600 },
+  { id: 'c8', cat: '豪车奢侈品', name: '劳斯莱斯幻影 👑', desc: '移动皇宫，+20M/s', cost: 50000000, flops: 20000000, watt: 800 },
+  { id: 'c9', cat: '豪车奢侈品', name: '布加迪 Chiron 🐞', desc: '490km/h极速，+80M/s', cost: 200000000, flops: 80000000, watt: 1000 },
+  { id: 'c10', cat: '豪车奢侈品', name: '迈凯伦 F1 🏆', desc: '经典神车，+300M/s', cost: 800000000, flops: 300000000, watt: 1200 },
+  { id: 'c11', cat: '豪车奢侈品', name: '私人游艇 🛥️', desc: '100英尺豪华游艇，+1B/s', cost: 5000000000, flops: 1000000000, watt: 5000 },
+  { id: 'c12', cat: '豪车奢侈品', name: '私人飞机 ✈️', desc: '湾流G700商务机，+5B/s', cost: 20000000000, flops: 5000000000, watt: 20000 },
+  { id: 'c13', cat: '豪车奢侈品', name: '法拉利 F1赛车 🏎️', desc: '一级方程式赛车，+20B/s', cost: 100000000000, flops: 20000000000, watt: 900 },
+  { id: 'c14', cat: '豪车奢侈品', name: '黄金马桶 🚽', desc: '24K纯金打造，+50B/s', cost: 500000000000, flops: 50000000000, watt: 10 },
+  { id: 'c15', cat: '豪车奢侈品', name: '顶级名钻 💎', desc: '100克拉 D色钻石，+200B/s', cost: 2000000000000, flops: 200000000000, watt: 0 },
+  { id: 'c16', cat: '豪车奢侈品', name: '私人空间站 🛰️', desc: '轨道上的私人别墅，+1T/s', cost: 10000000000000, flops: 1000000000000, watt: 100000 },
+  { id: 'c17', cat: '豪车奢侈品', name: '月球基地 🌙', desc: '月球表面前哨站，+5T/s', cost: 50000000000000, flops: 5000000000000, watt: 500000 },
+  { id: 'c18', cat: '豪车奢侈品', name: '小行星采矿 ⛏️', desc: '开采富金属小行星，+20T/s', cost: 200000000000000, flops: 20000000000000, watt: 1000000 },
+  { id: 'c19', cat: '豪车奢侈品', name: '戴森云雏形 ☀️', desc: '包裹太阳的能量收集环，+100T/s', cost: 1000000000000000, flops: 100000000000000, watt: 10000000 },
+  { id: 'c20', cat: '豪车奢侈品', name: '完整戴森球 🌠', desc: '完全包裹恒星的终极工程，+1P/s', cost: 10000000000000000, flops: 1000000000000000, watt: 100000000 },
+
+  // ===== 地产建设 🏗️ =====
+  { id: 'b1', cat: '地产建设', name: '私人车库 🏎️', desc: '停你的豪车，每辆豪车+10%效率，+10K/s', cost: 50000, flops: 10000, watt: 5 },
+  { id: 'b2', cat: '地产建设', name: '屋顶太阳能板 ☀️', desc: '屋顶铺太阳能，+50K/s', cost: 100000, flops: 50000, watt: 0 },
+  { id: 'b3', cat: '地产建设', name: '游泳池 🏊', desc: '后院泳池，训练后放松，+20K/s', cost: 300000, flops: 20000, watt: 50 },
+  { id: 'b4', cat: '地产建设', name: '私人花园 🌳', desc: '绿化环境提升效率，+100K/s', cost: 800000, flops: 100000, watt: 0 },
+  { id: 'b5', cat: '地产建设', name: '家庭健身房 🏋️', desc: '保持精力充沛，+50K/s', cost: 1500000, flops: 50000, watt: 100 },
+  { id: 'b6', cat: '地产建设', name: '家庭影院 🎬', desc: '看电影解压，+300K/s', cost: 5000000, flops: 300000, watt: 500 },
+  { id: 'b7', cat: '地产建设', name: '酒窖 🍷', desc: '藏酒放松灵感，+1M/s', cost: 20000000, flops: 1000000, watt: 10 },
+  { id: 'b8', cat: '地产建设', name: '直升机坪 🚁', desc: '屋顶停直升机，+5M/s', cost: 100000000, flops: 5000000, watt: 5000 },
+  { id: 'b9', cat: '地产建设', name: '家庭服务器机房 🖥️', desc: '地下室改机房，+20M/s', cost: 500000000, flops: 20000000, watt: 5000 },
+  { id: 'b10', cat: '地产建设', name: '私人图书馆 📚', desc: '藏书万卷，+100M/s', cost: 2000000000, flops: 100000000, watt: 5 },
+  { id: 'b11', cat: '地产建设', name: '地下避难所 🛡️', desc: '末日安全屋，+500M/s', cost: 10000000000, flops: 500000000, watt: 1000 },
+  { id: 'b12', cat: '地产建设', name: '私人研究实验室 🔬', desc: '家就是实验室，+2B/s', cost: 50000000000, flops: 2000000000, watt: 10000 },
+
+  // ===== 家具 🛋️ =====
+  { id: 'f1', cat: '家具装饰', name: '🛋️ 沙发', desc: '双人沙发，2格宽，+5K/s', cost: 20000, flops: 5000, fw: 2, fh: 1, watt: 0 },
+  { id: 'f2', cat: '家具装饰', name: '🛏️ 床', desc: '大床，2格宽，+8K/s', cost: 30000, flops: 8000, fw: 2, fh: 1, watt: 0 },
+  { id: 'f3', cat: '家具装饰', name: '📺 电视', desc: '大电视，1格，+3K/s', cost: 10000, flops: 3000, fw: 1, fh: 1, watt: 200 },
+  { id: 'f4', cat: '家具装饰', name: '🪴 绿植', desc: '盆栽，1格，+1K/s', cost: 2000, flops: 1000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f5', cat: '家具装饰', name: '🚪 衣柜', desc: '大衣柜，1格，+2K/s', cost: 8000, flops: 2000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f6', cat: '家具装饰', name: '🍽️ 餐桌', desc: '六人餐桌，2格，+4K/s', cost: 15000, flops: 4000, fw: 2, fh: 1, watt: 0 },
+  { id: 'f7', cat: '家具装饰', name: '🧊 冰箱', desc: '双开门冰箱，1格，+2K/s', cost: 12000, flops: 2000, fw: 1, fh: 1, watt: 300 },
+  { id: 'f8', cat: '家具装饰', name: '🍳 灶台', desc: '嵌入式灶台，1格，+2K/s', cost: 10000, flops: 2000, fw: 1, fh: 1, watt: 500 },
+  { id: 'f9', cat: '家具装饰', name: '🛁 浴缸', desc: '大浴缸，2格，+10K/s', cost: 50000, flops: 10000, fw: 2, fh: 1, watt: 500 },
+  { id: 'f10', cat: '家具装饰', name: '🚽 马桶', desc: '智能马桶，1格，+1K/s', cost: 5000, flops: 1000, fw: 1, fh: 1, watt: 50 },
+  { id: 'f11', cat: '家具装饰', name: '🖥️ 电脑桌', desc: '电竞桌+电脑，1格，+20K/s', cost: 80000, flops: 20000, fw: 1, fh: 1, watt: 500 },
+  { id: 'f12', cat: '家具装饰', name: '🎹 钢琴', desc: '三角钢琴，2格，+50K/s', cost: 200000, flops: 50000, fw: 2, fh: 1, watt: 100 },
+  { id: 'f13', cat: '家具装饰', name: '📚 书架', desc: '顶天立地书架，1格，+5K/s', cost: 20000, flops: 5000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f14', cat: '家具装饰', name: '🏊 泳池(室内)', desc: '室内泳池，2x2格，+500K/s', cost: 2000000, flops: 500000, fw: 2, fh: 2, watt: 5000 },
+  { id: 'f15', cat: '家具装饰', name: '💪 健身器材', desc: '综合训练器，1格，+30K/s', cost: 100000, flops: 30000, fw: 1, fh: 1, watt: 300 },
+  { id: 'f16', cat: '家具装饰', name: '🎮 游戏机', desc: 'PS5+沙发套装，2格，+40K/s', cost: 150000, flops: 40000, fw: 2, fh: 1, watt: 400 },
+  { id: 'f17', cat: '家具装饰', name: '🖼️ 名画', desc: '梵高真迹，1格，+100K/s', cost: 500000, flops: 100000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f18', cat: '家具装饰', name: '🕰️ 古董钟', desc: '古董座钟，1格，+20K/s', cost: 80000, flops: 20000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f19', cat: '家具装饰', name: '🛋️ L型沙发', desc: '超大L型沙发，2x2格，+100K/s', cost: 400000, flops: 100000, fw: 2, fh: 2, watt: 0 },
+  { id: 'f20', cat: '家具装饰', name: '🍷 酒柜', desc: '恒温酒柜，1格，+30K/s', cost: 120000, flops: 30000, fw: 1, fh: 1, watt: 200 },
+  { id: 'f21', cat: '家具装饰', name: '🛏️ 四柱床', desc: '欧式豪华四柱床，2格，+60K/s', cost: 250000, flops: 60000, fw: 2, fh: 1, watt: 0 },
+  { id: 'f22', cat: '家具装饰', name: '🎹 电子琴', desc: '88键电钢，1格，+15K/s', cost: 60000, flops: 15000, fw: 1, fh: 1, watt: 100 },
+  { id: 'f23', cat: '家具装饰', name: '🧘 瑜伽垫', desc: '冥想角，1格，+10K/s', cost: 5000, flops: 10000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f24', cat: '家具装饰', name: '🛁 按摩浴缸', desc: '冲浪按摩缸，2格，+80K/s', cost: 300000, flops: 80000, fw: 2, fh: 1, watt: 1000 },
+  { id: 'f25', cat: '家具装饰', name: '🚗 车位', desc: '车库车位，1格，+5K/s', cost: 30000, flops: 5000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f26', cat: '家具装饰', name: '🛷 滑雪板架', desc: '冬季运动装备，1格，+25K/s', cost: 100000, flops: 25000, fw: 1, fh: 1, watt: 0 },
+  { id: 'f27', cat: '家具装饰', name: '☕ 咖啡机', desc: '意式半自动，1格，+8K/s', cost: 25000, flops: 8000, fw: 1, fh: 1, watt: 1500 },
+  { id: 'f28', cat: '家具装饰', name: '📻 黑胶唱机', desc: '复古Hi-Fi，1格，+12K/s', cost: 40000, flops: 12000, fw: 1, fh: 1, watt: 100 },
+  { id: 'f29', cat: '家具装饰', name: '🖼️ 巨幕投影', desc: '120寸投影墙，2格，+90K/s', cost: 350000, flops: 90000, fw: 2, fh: 1, watt: 600 },
+  { id: 'f30', cat: '家具装饰', name: '🏛️ 豪华大水晶吊灯', desc: '客厅吊灯，1格，+200K/s', cost: 800000, flops: 200000, fw: 1, fh: 1, watt: 2000 },
 ];
 
 // ===== Logs =====
@@ -717,6 +947,9 @@ function getAutoPower() {
 function getCost(p) {
   const n = state.owned[p.id] || 0;
   return Math.floor(p.cost * Math.pow(1.5, n));
+}
+function usesMoney(p) {
+  return p.cat === '房产投资' || p.cat === '豪车奢侈品' || p.cat === '地产建设' || p.cat === '家具装饰';
 }
 function getTotalWatt() {
   let w = 0;
@@ -793,7 +1026,7 @@ function renderShop() {
     const owned = state.owned[p.id] || 0;
     const max = getMax(p);
     const maxed = owned >= max;
-    const affordable = state.money >= cost && !maxed;
+    const affordable = (usesMoney(p) ? state.money : state.totalFLOPs) >= cost && !maxed;
     if (showAffordableOnly && !affordable) continue;
     if (currentShopCat !== '全部' && p.cat !== currentShopCat) continue;
     if (p.cat !== lastCat) {
@@ -836,7 +1069,7 @@ function refreshShop() {
     if (maxed) {
       r.btn.innerHTML = `✓<span class="qty">已买</span>`;
     } else {
-      r.btn.innerHTML = `${fmt(cost)}<span class="qty">买${max === Infinity ? ' ×' + (owned+1) : ''}</span>`;
+      r.btn.innerHTML = `${usesMoney(p) ? '¥' : ''}${fmt(cost)}<span class="qty">买${max === Infinity ? ' ×' + (owned+1) : ''}</span>`;
     }
     const ownEl = r.item.querySelector('.shop-own');
     if (ownEl) {
@@ -848,12 +1081,18 @@ function refreshShop() {
 function buyProduct(p) {
   const cost = getCost(p);
   const owned = state.owned[p.id] || 0;
-  if (state.money < cost || owned >= getMax(p)) return;
-  state.money -= cost;
+  const bal = usesMoney(p) ? state.money : state.totalFLOPs;
+  if (bal < cost || owned >= getMax(p)) return;
+  if (usesMoney(p)) state.money -= cost; else state.totalFLOPs -= cost;
   state.owned[p.id] = owned + 1;
-  const gain = p.clickBonus ? `+${fmt(p.clickBonus)}/点击` : `+${fmt(p.flops)}/s`;
-  addLog(`[SHOP] 购入 ${p.name} ×${state.owned[p.id]} (${gain})`, 'buy');
-  render(); renderShop(); renderTM();
+  if (p.cat === '家具装饰') {
+    state.inventory.push(p.id);
+    addLog(`[SHOP] 购入 ${p.name} → 已放入背包`, 'buy');
+  } else {
+    const gain = p.clickBonus ? `+${fmt(p.clickBonus)}/点击` : `+${fmt(p.flops)}/s`;
+    addLog(`[SHOP] 购入 ${p.name} ×${state.owned[p.id]} (${gain})`, 'buy');
+  }
+  render(); renderShop(); renderTM(); renderHouse();
 }
 
 // ===== Task Manager =====
@@ -919,6 +1158,7 @@ function render() {
   el.autoPower.textContent = fmt(getAutoPower()) + '/s';
   refreshShop();
   updateAILevel();
+  renderHouse();
 }
 
 // ===== Train =====
@@ -1033,11 +1273,30 @@ el.unlockAllBtn.onclick = () => {
   addLog('[DEBUG] 已买空商店', 'buy');
   render(); renderShop(); renderTM(); updateDebugStats();
 };
+document.getElementById('infiniteAssetsBtn').onclick = () => {
+  state.totalFLOPs = 1e30;
+  state.money = 1e20;
+  addLog('[DEBUG] 无限资产已开启', 'buy');
+  render(); renderShop(); renderTM(); updateDebugStats();
+};
 el.winBtn.onclick = () => {
   state.totalFLOPs = TARGET_FLOPS;
   el.debugModal.classList.add('hidden');
 };
 el.closeDebugBtn.onclick = () => el.debugModal.classList.add('hidden');
+
+// ===== New Debug Buttons =====
+document.getElementById('addMoney1Btn').onclick = () => { state.money += 1000; render(); updateDebugStats(); };
+document.getElementById('addMoney2Btn').onclick = () => { state.money += 1e6; render(); updateDebugStats(); };
+document.getElementById('addMoney3Btn').onclick = () => { state.money += 1e9; render(); updateDebugStats(); };
+document.getElementById('addClickBtn').onclick = () => {
+  PRODUCTS.push({ id:'custom_click_'+Date.now(), cat:'软件与数据', name:'自定义点击加成', desc:'+1000/点击', cost:0, clickBonus:1000, watt:0 });
+  render(); renderShop(); updateDebugStats();
+};
+document.getElementById('addAutoBtn').onclick = () => {
+  PRODUCTS.push({ id:'custom_auto_'+Date.now(), cat:'存储与基建', name:'自定义自动算力', desc:'+100K/s', cost:0, flops:100000, watt:0 });
+  render(); renderShop(); renderTM(); updateDebugStats();
+};
 
 // ===== Restart =====
 el.restartBtn.onclick = () => {
@@ -1094,6 +1353,249 @@ document.querySelectorAll('.shop-tab').forEach(tab => {
     document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     renderShop();
+  };
+});
+
+// ===== My House =====
+if (!state.placed) state.placed = {};
+if (!state.inventory) state.inventory = [];
+if (!state.floorColor) state.floorColor = '#2a2a35';
+let selectedFurniture = null;
+const GRID_W = 5, GRID_H = 3;
+
+function getHouseFloors() {
+  const houses = PRODUCTS.filter(p => p.cat === '房产投资' && state.owned[p.id]);
+  let base = 2;
+  if (houses.length > 0) {
+    const best = houses[houses.length-1];
+    if (best.cost > 1e8) base = 4;
+    if (best.cost > 1e12) base = 6;
+  }
+  return base + (state.extraFloors || 0);
+}
+
+function renderHouse() {
+  const houses = PRODUCTS.filter(p => p.cat === '房产投资' && state.owned[p.id]);
+  const nameEl = document.getElementById('houseName');
+  if (houses.length === 0) {
+    nameEl.textContent = '还没有房子，去商店买一套吧';
+  } else {
+    const best = houses[houses.length-1];
+    nameEl.textContent = '当前宅邸：' + best.name + '（' + getHouseFloors() + '层）';
+  }
+  const sel = document.getElementById('floorSelect');
+  const cur = sel.value || '1';
+  sel.innerHTML = '';
+  for (let f = 1; f <= getHouseFloors(); f++) {
+    const opt = document.createElement('option');
+    opt.value = f; opt.textContent = f === 1 ? '1楼·院子' : f + '楼·室内';
+    sel.appendChild(opt);
+  }
+  sel.value = cur <= getHouseFloors() ? cur : '1';
+  // grid with dashed lines
+  const grid = document.getElementById('houseGrid');
+  grid.style.background = state.floorColor;
+  grid.innerHTML = '';
+  const floor = sel.value || '1';
+  for (let y = 0; y < GRID_H; y++) {
+    for (let x = 0; x < GRID_W; x++) {
+      const key = floor + '-' + x + '-' + y;
+      const cell = document.createElement('div');
+      cell.style.cssText = 'min-height:56px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:1px dashed rgba(255,255,255,0.15);';
+      const placed = state.placed[key];
+      if (placed) {
+        const svgs = {
+          f1:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="8" width="32" height="8" rx="2" fill="#7c3aed"/><rect x="4" y="16" width="8" height="18" rx="2" fill="#6d28d9"/><rect x="28" y="16" width="8" height="18" rx="2" fill="#6d28d9"/><rect x="12" y="16" width="16" height="14" rx="2" fill="#8b5cf6"/><rect x="14" y="18" width="5" height="10" rx="1" fill="#a78bfa"/><rect x="21" y="18" width="5" height="10" rx="1" fill="#a78bfa"/></svg>',
+          f2:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="5" y="6" width="30" height="6" rx="1" fill="#9d174d"/><rect x="5" y="12" width="30" height="22" rx="2" fill="#ec4899"/><rect x="8" y="14" width="10" height="8" rx="1" fill="#f9a8d4"/><rect x="22" y="14" width="10" height="8" rx="1" fill="#f9a8d4"/><line x1="5" y1="28" x2="35" y2="28" stroke="#be185d" stroke-width="1"/></svg>',
+          f3:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="6" y="10" width="28" height="18" rx="1" fill="#111"/><rect x="8" y="12" width="24" height="14" fill="#1e3a5f"/><rect x="18" y="28" width="4" height="4" fill="#333"/><rect x="14" y="32" width="12" height="2" fill="#333"/></svg>',
+          f4:'<svg viewBox="0 0 40 40" width="100%" height="100%"><ellipse cx="20" cy="16" rx="11" ry="9" fill="#16a34a"/><ellipse cx="16" cy="14" rx="5" ry="4" fill="#22c55e"/><ellipse cx="24" cy="15" rx="5" ry="4" fill="#4ade80"/><rect x="15" y="24" width="10" height="12" rx="1" fill="#92400e"/></svg>',
+          f5:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="10" y="4" width="20" height="32" rx="1" fill="#78350f"/><line x1="20" y1="4" x2="20" y2="36" stroke="#451a03" stroke-width="1"/><circle cx="17" cy="20" r="1" fill="#d4a574"/><circle cx="23" cy="20" r="1" fill="#d4a574"/></svg>',
+          f6:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="5" y="14" width="30" height="12" rx="1" fill="#92400e"/><ellipse cx="12" cy="20" rx="3" ry="2" fill="#fde68a"/><ellipse cx="20" cy="20" rx="3" ry="2" fill="#fde68a"/><ellipse cx="28" cy="20" rx="3" ry="2" fill="#fde68a"/></svg>',
+          f7:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="11" y="4" width="18" height="32" rx="2" fill="#94a3b8"/><line x1="11" y1="18" x2="29" y2="18" stroke="#64748b" stroke-width="1"/><rect x="13" y="6" width="6" height="10" rx="1" fill="#cbd5e1"/></svg>',
+          f8:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="8" y="10" width="24" height="20" rx="1" fill="#dc2626"/><circle cx="15" cy="20" r="4" fill="#1f2937"/><circle cx="25" cy="20" r="4" fill="#1f2937"/><circle cx="15" cy="20" r="2" fill="#4b5563"/><circle cx="25" cy="20" r="2" fill="#4b5563"/></svg>',
+          f9:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="10" width="32" height="20" rx="8" fill="#0369a1"/><rect x="7" y="13" width="26" height="14" rx="6" fill="#38bdf8"/><ellipse cx="20" cy="20" rx="8" ry="4" fill="#7dd3fc"/></svg>',
+          f10:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="14" y="4" width="12" height="10" rx="2" fill="#e2e8f0"/><ellipse cx="20" cy="22" rx="9" ry="7" fill="#f1f5f9"/><ellipse cx="20" cy="22" rx="6" ry="4" fill="#cbd5e1"/></svg>',
+          f11:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="8" y="6" width="24" height="16" rx="1" fill="#1e40af"/><rect x="10" y="8" width="20" height="12" fill="#60a5fa"/><rect x="14" y="24" width="12" height="8" rx="1" fill="#374151"/><rect x="16" y="26" width="8" height="4" fill="#1f2937"/></svg>',
+          f12:'<svg viewBox="0 0 40 40" width="100%" height="100%"><ellipse cx="20" cy="20" rx="15" ry="11" fill="#b45309"/><rect x="8" y="18" width="24" height="4" fill="#1f2937"/><rect x="10" y="19" width="20" height="1" fill="#fff"/><rect x="10" y="21" width="20" height="1" fill="#fff"/></svg>',
+          f13:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="10" y="4" width="20" height="32" rx="1" fill="#451a03"/><rect x="12" y="6" width="16" height="8" fill="#92400e"/><rect x="12" y="16" width="16" height="8" fill="#78350f"/><rect x="12" y="26" width="16" height="8" fill="#92400e"/></svg>',
+          f14:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="3" y="3" width="34" height="34" rx="6" fill="#0e7490"/><rect x="6" y="6" width="28" height="28" rx="4" fill="#22d3ee"/></svg>',
+          f15:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="12" y="4" width="16" height="32" rx="2" fill="#b91c1c"/><ellipse cx="20" cy="14" rx="5" ry="4" fill="#ef4444"/><rect x="14" y="22" width="12" height="10" fill="#7f1d1d"/></svg>',
+          f16:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="5" y="8" width="30" height="16" rx="2" fill="#6d28d9"/><rect x="8" y="11" width="10" height="10" rx="1" fill="#a78bfa"/><rect x="22" y="11" width="10" height="10" rx="1" fill="#a78bfa"/><rect x="14" y="26" width="12" height="8" rx="1" fill="#4c1d95"/></svg>',
+          f17:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="6" y="6" width="28" height="28" rx="1" fill="#78350f"/><rect x="9" y="9" width="22" height="22" fill="#fbbf24"/><circle cx="20" cy="20" r="7" fill="#f59e0b"/></svg>',
+          f18:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="14" y="6" width="12" height="28" rx="1" fill="#78350f"/><circle cx="20" cy="18" r="7" fill="#a16207"/><circle cx="20" cy="18" r="4" fill="#ca8a04"/></svg>',
+          f19:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="4" width="32" height="10" rx="2" fill="#5b21b6"/><rect x="4" y="14" width="10" height="22" rx="2" fill="#5b21b6"/><rect x="16" y="14" width="20" height="8" rx="1" fill="#7c3aed"/><rect x="6" y="6" width="7" height="6" rx="1" fill="#8b5cf6"/><rect x="18" y="6" width="7" height="6" rx="1" fill="#8b5cf6"/><rect x="28" y="6" width="6" height="6" rx="1" fill="#8b5cf6"/><rect x="6" y="16" width="6" height="8" rx="1" fill="#8b5cf6"/><rect x="6" y="26" width="6" height="8" rx="1" fill="#8b5cf6"/></svg>',
+          f20:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="10" y="4" width="20" height="32" rx="1" fill="#581c87"/><rect x="13" y="7" width="14" height="26" rx="1" fill="#7f1d1d"/><rect x="15" y="10" width="10" height="20" fill="#991b1b"/></svg>',
+          f21:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="8" width="32" height="24" rx="3" fill="#9d174d"/><rect x="7" y="11" width="26" height="10" rx="1" fill="#f472b6"/><line x1="20" y1="8" x2="20" y2="32" stroke="#831843" stroke-width="1"/><rect x="6" y="6" width="28" height="3" rx="1" fill="#be185d"/></svg>',
+          f22:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="10" y="10" width="20" height="20" rx="2" fill="#a21caf"/><rect x="13" y="13" width="14" height="14" fill="#d946ef"/></svg>',
+          f23:'<svg viewBox="0 0 40 40" width="100%" height="100%"><ellipse cx="20" cy="20" rx="13" ry="9" fill="#059669"/><ellipse cx="20" cy="18" rx="9" ry="6" fill="#10b981"/></svg>',
+          f24:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="10" width="32" height="20" rx="8" fill="#0369a1"/><circle cx="12" cy="20" r="3" fill="#0ea5e9"/><circle cx="20" cy="20" r="3" fill="#0ea5e9"/><circle cx="28" cy="20" r="3" fill="#0ea5e9"/></svg>',
+          f25:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="8" y="8" width="24" height="24" rx="3" fill="#334155"/><circle cx="20" cy="20" r="7" fill="#0f172a"/></svg>',
+          f26:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="12" y="6" width="16" height="28" rx="1" fill="#0369a1"/><rect x="14" y="8" width="12" height="24" fill="#0284c7"/><line x1="20" y1="6" x2="20" y2="34" stroke="#075985" stroke-width="1"/></svg>',
+          f27:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="10" y="10" width="20" height="20" rx="2" fill="#451a03"/><circle cx="15" cy="20" r="4" fill="#78350f"/><circle cx="25" cy="20" r="4" fill="#78350f"/><rect x="18" y="6" width="4" height="6" fill="#92400e"/></svg>',
+          f28:'<svg viewBox="0 0 40 40" width="100%" height="100%"><circle cx="20" cy="20" r="13" fill="#44403c"/><circle cx="20" cy="20" r="9" fill="#57534e"/><circle cx="20" cy="20" r="5" fill="#78716c"/></svg>',
+          f29:'<svg viewBox="0 0 40 40" width="100%" height="100%"><rect x="4" y="10" width="32" height="18" rx="1" fill="#000"/><rect x="6" y="12" width="28" height="14" fill="#1f2937"/><rect x="16" y="28" width="8" height="3" fill="#333"/></svg>',
+          f30:'<svg viewBox="0 0 40 40" width="100%" height="100%"><circle cx="20" cy="20" r="14" fill="#ca8a04"/><circle cx="20" cy="20" r="10" fill="#facc15"/><circle cx="20" cy="20" r="6" fill="#fde047"/></svg>'
+        };
+        cell.style.background = 'transparent';
+        cell.style.border = 'none';
+        cell.innerHTML = svgs[placed] || '<div style="width:100%;height:100%;background:#3b82f6;border-radius:4px;"></div>';
+      } else {
+        cell.textContent = '';
+      }
+      cell.onclick = () => {
+        if (state.placed[key]) return;
+        if (!selectedFurniture) { alert('先在背包里点一个家具！'); return; }
+        const idx = state.inventory.indexOf(selectedFurniture);
+        if (idx < 0) { alert('背包里没有这个家具了'); return; }
+        state.inventory.splice(idx, 1);
+        state.placed[key] = selectedFurniture;
+        state.owned[selectedFurniture] = (state.owned[selectedFurniture]||0) + 1;
+        selectedFurniture = null;
+        render(); renderHouse();
+      };
+      grid.appendChild(cell);
+    }
+  }
+  // inventory (backpack)
+  const inv = document.getElementById('inventoryList');
+  inv.innerHTML = '';
+  if (state.inventory.length === 0) {
+    inv.innerHTML = '<span style="font-size:11px;color:var(--text-dim);">背包是空的，去商店买家具</span>';
+  }
+  state.inventory.forEach(fid => {
+    const f = PRODUCTS.find(p => p.id === fid);
+    if (!f) return;
+    const btn = document.createElement('button');
+    btn.className = 'debug-btn';
+    btn.style.cssText = 'font-size:11px;padding:6px 10px;';
+    btn.textContent = f.name;
+    btn.onclick = () => {
+      selectedFurniture = fid;
+      document.querySelectorAll('#inventoryList .debug-btn').forEach(b => b.style.opacity = '0.5');
+      btn.style.opacity = '1';
+      btn.style.background = 'rgba(10,132,255,0.3)';
+    };
+    inv.appendChild(btn);
+  });
+}
+
+document.getElementById('floorSelect').onchange = renderHouse;
+document.getElementById('addFloorBtn').onclick = () => {
+  if (state.money >= 1000000) {
+    state.money -= 1000000;
+    state.extraFloors = (state.extraFloors||0) + 1;
+    render(); renderHouse();
+  } else alert('需要¥100万加一层');
+};
+document.querySelectorAll('.floor-color').forEach(btn => {
+  btn.onclick = () => {
+    state.floorColor = btn.dataset.color;
+    document.querySelectorAll('.floor-color').forEach(b => b.style.border = '1px solid var(--border)');
+    btn.style.border = '2px solid #fff';
+    renderHouse();
+  };
+});
+
+// ===== Gacha =====
+if (!state.cards) state.cards = [];
+const CARD_POOL = [
+  {r:'N', name:'旧显卡图纸', icon:'🎨', price:500},
+  {r:'N', name:'普通螺丝', icon:'🔩', price:200},
+  {r:'N', name:'机箱风扇', icon:'🌀', price:300},
+  {r:'N', name:'电源线', icon:'🔌', price:400},
+  {r:'N', name:'散热硅脂', icon:'💊', price:250},
+  {r:'R', name:'RTX 3060图纸', icon:'🃏', price:5000},
+  {r:'R', name:'RGB灯带', icon:'🌈', price:3000},
+  {r:'R', name:'机械键盘', icon:'⌨️', price:8000},
+  {r:'R', name:'4K显示器', icon:'🖥️', price:15000},
+  {r:'SR', name:'RTX 4090图纸', icon:'💎', price:50000},
+  {r:'SR', name:'定制水冷', icon:'💧', price:80000},
+  {r:'SR', name:'豪跑车模', icon:'🏎️', price:100000},
+  {r:'SSR', name:'特斯拉Roadster', icon:'🚀', price:500000},
+  {r:'SSR', name:'黄金显卡', icon:'👑', price:1000000},
+  {r:'SSR', name:'月球土地证', icon:'🌙', price:2000000},
+];
+function rollCard() {
+  const r = Math.random();
+  let rarity;
+  if (r < 0.6) rarity = 'N';
+  else if (r < 0.88) rarity = 'R';
+  else if (r < 0.98) rarity = 'SR';
+  else rarity = 'SSR';
+  const pool = CARD_POOL.filter(c => c.r === rarity);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+function draw(n) {
+  const cost = n * 10000 * (n === 10 ? 0.9 : 1);
+  if (state.money < cost) { alert('钱不够！'); return; }
+  state.money -= cost;
+  const results = [];
+  for (let i = 0; i < n; i++) {
+    const c = rollCard();
+    state.cards.push(c);
+    results.push(c);
+  }
+  const colors = {N:'#9ca3af', R:'#3b82f6', SR:'#a855f7', SSR:'#fbbf24'};
+  document.getElementById('drawResult').innerHTML =
+    results.map(c => `<div style="display:inline-block;margin:4px;padding:8px 10px;border-radius:8px;background:${colors[c.r]}22;border:1px solid ${colors[c.r]};color:${colors[c.r]};font-size:12px;text-align:center;">${c.icon}<br>${c.name}<br><b>${c.r}</b></div>`).join('');
+  render(); renderCards();
+}
+function renderCards() {
+  const list = document.getElementById('cardList');
+  document.getElementById('cardCount').textContent = state.cards.length;
+  list.innerHTML = '';
+  state.cards.forEach((c, i) => {
+    const colors = {N:'#9ca3af', R:'#3b82f6', SR:'#a855f7', SSR:'#fbbf24'};
+    const div = document.createElement('div');
+    div.style.cssText = `padding:8px;border-radius:8px;background:${colors[c.r]}15;border:1px solid ${colors[c.r]};color:${colors[c.r]};font-size:11px;text-align:center;min-width:70px;`;
+    div.innerHTML = `${c.icon}<br>${c.name}<br><b>${c.r}</b><br><button style="margin-top:4px;padding:3px 8px;font-size:10px;background:${colors[c.r]};color:#000;border:none;border-radius:4px;cursor:pointer;">卖¥${fmt(c.price)}</button>`;
+    div.querySelector('button').onclick = () => {
+      state.money += c.price;
+      state.cards.splice(i, 1);
+      render(); renderCards();
+    };
+    list.appendChild(div);
+  });
+}
+document.getElementById('singleDrawBtn').onclick = () => draw(1);
+document.getElementById('tenDrawBtn').onclick = () => draw(10);
+
+// ===== Fake Pay =====
+document.querySelectorAll('.pay-btn').forEach(btn => {
+  btn.onclick = () => {
+    const t = parseFloat(btn.dataset.t);
+    const p = btn.dataset.p;
+    const pm = document.getElementById('passModal');
+    pm.querySelector('h2').textContent = '支付验证';
+    pm.querySelector('p').textContent = '请输入支付密码';
+    document.getElementById('passError').textContent = '';
+    document.getElementById('passInput').value = '';
+    pm.classList.remove('hidden');
+    const confirm = document.getElementById('passConfirm');
+    const cancel = document.getElementById('passCancel');
+    const onConfirm = () => {
+      const pwd = document.getElementById('passInput').value;
+      if (pwd !== '1114') {
+        document.getElementById('passError').textContent = '密码错误！';
+        return;
+      }
+      pm.classList.add('hidden');
+      confirm.onclick = null;
+      cancel.onclick = null;
+      document.getElementById('payResult').innerHTML = '<span style="color:#0ea5e9;">支付¥'+p+'中...</span>';
+      setTimeout(() => {
+        state.totalFLOPs += t;
+        render();
+        document.getElementById('payResult').innerHTML = '<span style="color:#22c55e;">✓ 已到账 '+fmt(t)+' 算力</span>';
+      }, 1000);
+    };
+    const onCancel = () => {
+      pm.classList.add('hidden');
+      confirm.onclick = null;
+      cancel.onclick = null;
+    };
+    confirm.onclick = onConfirm;
+    cancel.onclick = onCancel;
   };
 });
 
